@@ -24,18 +24,29 @@ $ ssh -i your-aws-sshkey.pem -D 8157 -q centos@54.65.50.23
 
 After above, you can access to http://cdsw.10.0.0.44.xip.io (IP 10.0.0.44 changes every time) from your web browser via SSH SOCKS Proxy (See https://www.cloudera.com/documentation/director/latest/topics/director_security_socks.html).
 
-
+## Secure Cluster
 - Access to CDSW from browser.
 - Click "**Sign Up for a New Account**" and create a new account. This username doesn't relate to existing OS users or Kerberos principals. Therefore you can create any users.
     - e.g.)
     - Full Name: Demo User1
     - Username: user1
     - Email: user1@localhost.localdomain
-    - Password: user1user1
+    - Password: <any word>
 - After logging in, authenticate against your cluster’s Kerberos KDC by going to the top-right dropdown menu and clicking **Settings** -> **Hadoop Authentication**. You can use the prepared principals `user1@HADOOP` and so on. Please read the following "Users and Authentication" section.
     - e.g.)
     - Principal: user1@HADOOP
     - Password: user1
+    
+## Unsecure Cluster
+- Access to CDSW from browser.
+- Click "**Sign Up for a New Account**" and create a new account. This username *DOES* relate to existing OS users.
+    - e.g.)
+    - Full Name: Demo User1
+    - Username: user1
+    - Email: user1@localhost.localdomain
+    - Password: <any word>
+- It's okay to remain blank in **Settings** -> **Hadoop Authentication**.
+ 
 
 ## Users and Authentication
 
@@ -52,22 +63,64 @@ After above, you can access to http://cdsw.10.0.0.44.xip.io (IP 10.0.0.44 change
 
 ## CDSW w/ GPU Support
 
+### Director Config
 If you want to use GPU from CDSW, you can use `cdsw-gpu-secure-cluster.conf` instead of `cdsw-secure-cluster.conf`
 
 ```
-$ cloudera-director bootstrap-remote cdsw-gpu-secure-cluster.conf --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
+$ cloudera-director bootstrap-remote c6_3_1-cdsw1_6_1-gpu-minimum.conf --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
 ```
+By default, this conf boot up `p2.8xlarge` instance.
 
-By default, this conf boot up `p2.xlarge` instance.
+### Engine Image
 
 You also need to create a custom CUDA-capable Engine Image.
-https://www.cloudera.com/documentation/data-science-workbench/latest/topics/cdsw_gpu.html#custom_cuda_engine
 
-I already built a sample CUDA-capable engine image. If you want to use [my image](https://hub.docker.com/r/takabow/cdsw-cuda/) (`takabow/cdsw-cuda:2`) instead of base engine, you can add the image by going to the top-right dropdown menu and clicking **Admin** -> **Engines** -> **Engine Images**.
+Here is what I referred to:
+[Using NVIDIA GPUs for Cloudera Data Science Workbench Projects](https://docs.cloudera.com/documentation/data-science-workbench/1-6-x/topics/cdsw_gpu.html#custom_cuda_engine)
+
+You may want to access the latest information:
+[Using NVIDIA GPUs for Cloudera Data Science Workbench Projects](https://docs.cloudera.com/documentation/data-science-workbench/latest/topics/cdsw_gpu.html#custom_cuda_engine)
+
+[Notes on building the image](./cdsw-engine.md)
+
+### CDSW Settings
+
+#### Engine Images
+you must add the image by going to the top-right dropdown menu and clicking **Admin** -> **Engines** -> **Engine Images**.
+I built a sample CUDA-capable engine image. You may use [my image](https://hub.docker.com/r/yoshiyukikono/cdsw-cuda/) (`yoshiyukikono/cdsw-cuda:8`).
+
+**Note:** When you start a new session for the first time, it will take pretty longer time than usual beause the above engine image is downloaded at that time.
+
+##### Jupyter notebook
+If you want to use Jupyter notebook with custome engine images, you need to add an Editor entry.
+
+1. Under Engine Images, click the Edit button for the customized engine image that you want to configure for Jupyter Notebook.
+1. Click New Editor.
+1. Complete the fields:
+
+Name: Enter `Jupyter Notebook`.
+Command: Enter the command to start Jupyter Notebook. This command is:
+```
+/usr/local/bin/jupyter-notebook --no-browser --ip=127.0.0.1 --port=${CDSW_APP_PORT} --NotebookApp.token= --NotebookApp.allow_remote_access=True --log-level=ERROR
+```
+
+#### Maximum GPUs
+**Admin** -> **Engines** -> **Engine Profiles** -> **Maximum GPUs per Session/Job**
+
+You must increase the number from 0 to 1 or higher.
 
 
 For more details, please read the following document.
-https://www.cloudera.com/documentation/data-science-workbench/latest/topics/cdsw_gpu.html
+
+Here is what I referred to:
+[Create a Custom CUDA-capable Engine Image](https://www.cloudera.com/documentation/data-science-workbench/latest/topics/cdsw_gpu.html)
+
+You may want to access the latest information:
+[Create a Custom CUDA-capable Engine Image](https://docs.cloudera.com/documentation/data-science-workbench/1-6-x/topics/cdsw_gpu.html)
+
+### Test the Custom CUDA Engine
+
+Refer to [Notes on building the image](./cdsw-engine.md).
 
 ## EC2 Instances
 
