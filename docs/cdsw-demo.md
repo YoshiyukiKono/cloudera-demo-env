@@ -26,7 +26,7 @@ ssh -i your-aws-sshkey.pem -D 8157 -q centos@54.65.50.23
 $ ssh -i your-aws-sshkey.pem -D 8157 -q centos@54.65.50.23
 ```
 
-After above, you can access to http://cdsw.10.0.0.44.xip.io (IP 10.0.0.44 changes every time) from your web browser via SSH SOCKS Proxy (See https://www.cloudera.com/documentation/director/latest/topics/director_security_socks.html).
+After above, you can access to http://cdsw.10.0.0.44.xip.io from your web browser via SSH SOCKS Proxy (See https://www.cloudera.com/documentation/director/latest/topics/director_security_socks.html).
 
 ## Logging into CDSW
 
@@ -38,14 +38,14 @@ After above, you can access to http://cdsw.10.0.0.44.xip.io (IP 10.0.0.44 change
     - Email:  (anything)
     - Password: (anything)
     
-3. After logging in, authenticate against your cluster’s Kerberos KDC by going to the top-right dropdown menu and clicking **Settings** -> **Hadoop Authentication**. You can use the prepared principals `user1@HADOOP` and so on. Please read the following "Users and Authentication" section.
+3. After logging in, authenticate against your cluster’s Kerberos KDC by going to the top-right dropdown menu and clicking **Settings** -> **Hadoop Authentication**. You can use the prepared principals `user<N>@HADOOP`. Please read the following "User and Authentication" section of README. In case you use `user1`:
     
     - Principal: user1@HADOOP
     - Password: user1
     
 ### Unsecure Cluster
 1. Access to CDSW from browser.
-2. Click "**Sign Up for a New Account**" and create a new account. This username *DOES* relate to existing OS users.
+2. Click "**Sign Up for a New Account**" and create a new account. This username *DOES* relate to existing OS users. In case you use `user1`:
     
     - Full Name: (anything)
     - Username: user1
@@ -110,7 +110,7 @@ To confirm if GPU is used properly on your environment, please refer to [Notes o
 ## Checking CDSW Status
 
 On the CDSW node, you can check the status of CDSW using `cdsw status`.
-The following example is the output of `cdsw status` after installation finished.
+The following example is the output of `cdsw status` after installation finished (details are different depending on the version).
 
 ```
 $ sudo cdsw status
