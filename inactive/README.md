@@ -1,28 +1,33 @@
 # Cloudera Demo Environment
-
-Since CDP Data Center was released at the end of 2019, CDH should be replaced by CDP Data Center for most use cases, an exception of which is Cloudera Data Science Workbench. Therefore the other scripts are not maintained but you can find them [here](./inactive/)
-
-## Prerequisites for the Environment
-
-### Install Scripts
 Install scripts of Cloudera Demo cluster on the cloud environment.
 This is for Demo purposes only. Don't use for production.
 
 - These scripts install and deploy the following demo environment automatically.
-  - Cloudera Data Science Workbench: CDH Secure Cluster + Cloudera Data Science Workbench + DNS configuration for CDSW
-        - `c6_3_2-cdsw1_6_1-secure.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.2 Trial)
-  - Cloudera Data Science Workbench: CDH Unsecure Cluster + Cloudera Data Science Workbench + DNS configuration for CDSW
-        - `c6_3_2-cdsw1_6_1-unsecure.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.2 Trial)
+  - CDH Cluster
+    - `c5-base-cluster.conf` (Cloudera Enterprise 5.16.1 Trial)
+    - `c6-base-cluster.conf` (Cloudera Enterprise 6.3.0 Trial)
+  - CDH Secure Cluster + MIT-KDC
+    - `c5-secure-cluster.conf`  (Cloudera Enterprise 5.16.1 Trial)
+    - `c6-secure-cluster.conf`  (Cloudera Enterprise 6.3.0 Trial)
+  - CDH HA Cluster
+    - `c5-ha-cluster.conf`  (Cloudera Enterprise 5.16.1 Trial)
+    - `c6-ha-cluster.conf`  (Cloudera Enterprise 6.3.0 Trial)
+  - Cloudera Data Science Workbench (Secure) : CDH Secure Cluster + Cloudera Data Science Workbench + DNS configuration for CDSW
+    - `c5-cdsw-secure-cluster.conf` (CDSW 1.6.0 Trial + Cloudera Enterprise 5.16.1 Trial)
+    - `c6_3_2-cdsw1_6_1-secure.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.2 Trial)
+  
+  - Cloudera Data Science Workbench : CDH Cluster + Cloudera Data Science Workbench + DNS configuration for CDSW
+    - `c6_3_2-cdsw1_6_1-unsecure.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.2 Trial)
  
   - Cloudera Data Science Workbench with GPU : CDH Cluster (with minimum features) + Cloudera Data Science Workbench with GPU settings + DNS configuration for CDSW
-        - `c6_3_2-cdsw1_6_1-gpu-minimum.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.2 Trial)
+    - `c6_3_2-cdsw1_6_1-gpu-minimum.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.2 Trial)
   
 - I only tested on following environments
   - AWS ap-northeast-1 (Tokyo) region
   - CentOS 7.4 (not tested on RHEL)
   - Cloudera Altus Director on Mac/Linux (See below for details)
 
-### Requirements
+## Requirement
 
 - Cloudera Altus Director 6.3.0
     - Mac
@@ -30,27 +35,23 @@ This is for Demo purposes only. Don't use for production.
         - When you install Director this way, you can find application log at `/usr/local/Cellar/cloudera-director-server/6.3.0/libexec/logs/application.log`
     - Linux
         - https://www.cloudera.com/documentation/director/latest/topics/director_get_started_aws_install_dir_server.html
-     
 - AWS Environment
     - Setting up a VPC for Cloudera Altus Director
     - Creating a security group for Cloudera Altus Director
     - See https://www.cloudera.com/documentation/director/latest/topics/director_aws_setup_client.html
 
-## Creating the Environment
+## Creating demo env
 
-### Procedure
-
-1. Make sure Cloudera Altus Director is accessible (in this example, Cloudera Altus Director Server/Client is installed on your localhost and accessible by localhost:7189).
+1. In this example, Cloudera Altus Director Server/Client is installed on your localhost and accessible by localhost:7189
 
 2. Copy `your-aws-info.conf.template` and create your own `your-aws-info.conf` with
-
 - AWS_REGION
 - AWS_SUBNET_ID
 - AWS_SECURITY_GROUP
 - KEY_PAIR
 - AWS_AMI
 
-3. Set `CLUSTER_CONF`,`AWS_ACCESS_KEY_ID`,`AWS_SECRET_ACCESS_KEY` and run `cloudera-director bootstrap-remote` command (alternatively, you may edit `bootstrap.sh.template` and save it somewhere to keep your own configurations). It takes about 30 minutes.
+3. Set `CLUSTER_CONF/AWS_ACCESS_KEY_ID/AWS_SECRET_ACCESS_KEY` and run `cloudera-director bootstrap-remote` command. It takes about 30 minutes.
 
 ```
 $ export CLUSTER_CONF=<cluster-conf-you-use>
@@ -66,13 +67,13 @@ For the same reason, using this script in a large network (e.g. /16) is bad idea
 
 4. `./get_cluster_ip.sh <cluster.conf>` provides the connection information to the environment. See also the following Example section.
 
-5. To terminate this environment, run `cloudera-director terminate-remote` command (you may edit `terminate.sh.template` and save it somewhere to keep your own configurations).
+5. To terminate this environment, run `cloudera-director terminate-remote` command.
 
 ```
 $ cloudera-director terminate-remote ${CLUSTER_CONF} --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
 ```
 
-### Example
+## Example
 ```
 $ export AWS_ACCESS_KEY_ID=<your-aws-access-key>
 $ export AWS_SECRET_ACCESS_KEY=<your-aws-secret>
@@ -183,23 +184,17 @@ CDSW URL: http://cdsw.10.0.0.62.xip.io
 ssh -i /Users/taka/configs/se-japan-keypair.pem -L:21050:10.0.0.25:21050 -D 8157 -q centos@18.182.51.225
 ```
 
-## Connecting to the Environment
-
-### SOCKS Proxy
-
-When 18.182.51.225 is the public ip of Cloudera Manager and 10.0.0.50 is the private ip, you execute the command below.
+## Connecting to Cloudera Manager
 
 ```
 ssh -i your-aws-sshkey.pem -D 8157 -q centos@18.182.51.225
 ```
 
 This ssh connection creates a SOCKS Proxy to your VPC.
-You can access to Cloudear Manager, http://10.0.0.50:7180 from your web browser via SSH SOCKS Proxy (See https://www.cloudera.com/documentation/director/latest/topics/director_security_socks.html).
+You can access to Cloudear Manager, http://10.0.0.50:7180 - (IP addresses change every time), from your web browser via SSH SOCKS Proxy (See https://www.cloudera.com/documentation/director/latest/topics/director_security_socks.html).
 
-This simplifies your life for demo (used by only yourself). When you want to use the environment for hands-on (accessed by participants), you need to have appropriate knowledge, especially on AWS, and chage your environment accordingly. It can be configured after you create the environment. 
+## How to use
 
-
-## Using the Environment
-
-- [How to use CDSW](/docs/cdsw-demo.md)
+- [How to use CDSW demo](/docs/cdsw-demo.md)
+- [How to use DWH demo](/docs/DWH-demo.md)
 - [How to use Secure Cluster](/docs/secure-demo.md)
