@@ -38,7 +38,7 @@ After above, you can access to http://cdsw.10.0.0.44.xip.io from your web browse
     - Email:  (anything)
     - Password: (anything)
     
-3. After logging in, authenticate against your cluster’s Kerberos KDC by going to the top-right dropdown menu and clicking **Settings** -> **Hadoop Authentication**. You can use the prepared principals `user<N>@HADOOP`. Please read the following "User and Authentication" section of README. In case you use `user1`:
+3. After logging in, authenticate against your cluster’s Kerberos KDC by going to the top-right dropdown menu and clicking **Settings** -> **Hadoop Authentication**. You can use the prepared principals `user<N>@HADOOP`. Please read the "User and Authentication" section of [README](../README.md). In case you use `user1`:
     
     - Principal: user1@HADOOP
     - Password: user1
