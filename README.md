@@ -1,26 +1,26 @@
 # Cloudera Demo Environment
 
-Since CDP Data Center was released at the end of 2019, CDH should be replaced by CDP Data Center for most use cases, an exception of which is Cloudera Data Science Workbench. Therefore the other scripts are not maintained but you can find them [here](./inactive/)
+Since CDP Data Center was released at the end of 2019, CDH should be replaced by CDP Data Center for most use cases, an exception of which is Cloudera Data Science Workbench. Therefore the other scripts are not maintained but you can find them [here](./inactive/).
+
+This is for non-Production purposes only. Don't use for Production.
 
 ## Prerequisites for the Environment
 
-### Install Scripts
-Install scripts of Cloudera Demo cluster on the cloud environment.
-This is for Demo purposes only. Don't use for production.
+### Cluster Configurations
 
-- These scripts install and deploy the following demo environment automatically.
   - Cloudera Data Science Workbench: CDH Secure Cluster + Cloudera Data Science Workbench + DNS configuration for CDSW
-        - `c6_3_2-cdsw1_6_1-secure.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.2 Trial)
+       - `c6_3_2-cdsw1_6_1-secure.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.2 Trial)
   - Cloudera Data Science Workbench: CDH Unsecure Cluster + Cloudera Data Science Workbench + DNS configuration for CDSW
-        - `c6_3_2-cdsw1_6_1-unsecure.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.2 Trial)
+       - `c6_3_2-cdsw1_6_1-unsecure.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.2 Trial)
  
   - Cloudera Data Science Workbench with GPU : CDH Cluster (with minimum features) + Cloudera Data Science Workbench with GPU settings + DNS configuration for CDSW
-        - `c6_3_2-cdsw1_6_1-gpu-minimum.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.2 Trial)
+       - `c6_3_2-cdsw1_6_1-gpu-minimum.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.2 Trial)
   
-- I only tested on following environments
-  - AWS ap-northeast-1 (Tokyo) region
-  - CentOS 7.4 (not tested on RHEL)
-  - Cloudera Altus Director on Mac/Linux (See below for details)
+I only tested on following environments
+
+- AWS ap-northeast-1 (Tokyo) region
+- CentOS 7.4 (not tested on RHEL)
+- Cloudera Altus Director on Mac/Linux (See below for details)
 
 ### Requirements
 
@@ -183,9 +183,21 @@ CDSW URL: http://cdsw.10.0.0.62.xip.io
 ssh -i /Users/taka/configs/se-japan-keypair.pem -L:21050:10.0.0.25:21050 -D 8157 -q centos@18.182.51.225
 ```
 
+### User and Authentication
+
+- OS and CDH users, principals
+  - Demo users are created in the `postcreate-common-addusers-and-principals.sh` script.
+  - By default, this script creates sixteen normal users and two admin users and thier principals.
+  - username/password = `user1/user1`, `user2/user2`, `user3/user3`,... `admin1/admin1`, `admin2/admin2`
+  - `admin1` and `admin2` are in the same group `dba`.
+  - The realm name creating by this script is `HADOOP`.
+- Cloudera Manager/Cloudera Navigator
+  - username/password: `admin/admin`
+
+
 ## Connecting to the Environment
 
-### SOCKS Proxy
+### SOCKS Proxy Setting
 
 When 18.182.51.225 is the public ip of Cloudera Manager and 10.0.0.50 is the private ip, you execute the command below.
 
