@@ -2,7 +2,7 @@
 
 Since CDP Data Center was released at the end of 2019, CDH should be replaced by CDP Data Center for most use cases, an exception of which is Cloudera Data Science Workbench. Therefore the other scripts are not maintained but you can find them [here](./inactive/).
 
-This is for non-Production purposes only. Don't use for Production.
+This is for non-Production purposes only.
 
 ## Prerequisites for the Environment
 
