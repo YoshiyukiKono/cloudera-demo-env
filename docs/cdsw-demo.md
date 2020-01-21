@@ -98,6 +98,10 @@ Command: Enter the command to start Jupyter Notebook. This command is:
 
 You must increase the number from 0 to 1 or higher.
 
+#### Memory (GiB)
+**Admin** -> **Engines** -> **Engine Profiles**
+
+The default memory size (2GiB) is not enough even for installing deep learning packages. You need to have at least 4 GiB.
 
 For more details, please read the Cloudera documentation mentioned above.
 
