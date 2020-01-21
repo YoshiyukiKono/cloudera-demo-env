@@ -50,12 +50,13 @@ I only tested on following environments
 - KEY_PAIR
 - AWS_AMI
 
-3. Set `CLUSTER_CONF`,`AWS_ACCESS_KEY_ID`,`AWS_SECRET_ACCESS_KEY` and run `cloudera-director bootstrap-remote` command (alternatively, you may edit `bootstrap.sh.template` and save it somewhere to keep your own configurations). It takes about 30 minutes.
+3. Set `CLUSTER_CONF`,`AWS_ACCESS_KEY_ID`,`AWS_SECRET_ACCESS_KEY` (you may also set `INSTANCE_ENDDATE_TAG` as follows) and run `cloudera-director bootstrap-remote` command (alternatively, you may edit `bootstrap.sh.template` and save it somewhere to keep your own configurations). It takes about 30 minutes.
 
 ```
 $ export CLUSTER_CONF=<cluster-conf-you-use>
 $ export AWS_ACCESS_KEY_ID=<your-aws-access-key>
 $ export AWS_SECRET_ACCESS_KEY=<your-aws-secret>
+$ export INSTANCE_ENDDATE_TAG=`LANG=c date -v +7d +%m%d%Y`
 $ cloudera-director bootstrap-remote ${CLUSTER_CONF} --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
 ```
 
