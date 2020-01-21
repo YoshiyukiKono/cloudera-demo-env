@@ -67,12 +67,6 @@ For the same reason, using this script in a large network (e.g. /16) is bad idea
 
 4. `./get_cluster_ip.sh <cluster.conf>` provides the connection information to the environment. See also the following Example section.
 
-5. To terminate this environment, run `cloudera-director terminate-remote` command (you may edit `terminate.sh.template` and save it somewhere to keep your own configurations).
-
-```
-$ cloudera-director terminate-remote ${CLUSTER_CONF} --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
-```
-
 ### Example
 ```
 $ export AWS_ACCESS_KEY_ID=<your-aws-access-key>
@@ -216,3 +210,12 @@ This simplifies your life for demo (used by only yourself). When you want to use
 
 - [How to use CDSW](/docs/cdsw-demo.md)
 - [How to use Secure Cluster](/docs/secure-demo.md)
+
+
+## Terminating the Environment
+
+To terminate this environment, run `cloudera-director terminate-remote` command (you may edit `terminate.sh.template` and save it somewhere to keep your own configurations).
+
+```
+$ cloudera-director terminate-remote ${CLUSTER_CONF} --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
+```
