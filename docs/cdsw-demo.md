@@ -87,8 +87,8 @@ If you want to use Jupyter notebook with custome engine images, you need to add 
 1. Click New Editor.
 1. Complete the fields:
 
-Name: Enter `Jupyter Notebook`.
-Command: Enter the command to start Jupyter Notebook. This command is:
+- Name: Enter `Jupyter Notebook`.
+- Command: Enter the command to start Jupyter Notebook. This command is:
 ```
 /usr/local/bin/jupyter-notebook --no-browser --ip=127.0.0.1 --port=${CDSW_APP_PORT} --NotebookApp.token= --NotebookApp.allow_remote_access=True --log-level=ERROR
 ```
