@@ -7,7 +7,7 @@ date
 
 
 cat <<EOF > my_cloudera_license.txt
-[REPLACE WITH YOUR LICENCE (BEGIN)]
+[REPLACE WITH YOUR LICENSE (BEGIN)]
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA256
 
@@ -21,9 +21,10 @@ Hash: SHA256
   "expirationDate" : "SAMPLE"
 }
 -----BEGIN PGP SIGNATURE-----
-SAMPLE...
+SAMPLE
+...
 -----END PGP SIGNATURE-----
-[REPLACE WITH YOUR LICENCE (END)]
+[REPLACE WITH YOUR LICENSE (END)]
 EOF
 
 
