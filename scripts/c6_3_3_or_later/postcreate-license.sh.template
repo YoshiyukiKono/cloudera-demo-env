@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# logging stdout/stderr
+set -x
+exec >> /root/postcreate-license.log 2>&1
+date
+
+
+cat <<EOF > my_cloudera_license.txt
+[REPLACE WITH YOUR LICENCE (BEGIN)]
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+{
+  "deactivationDate" : "SAMPLE",
+  "features" : [ ],
+  "name" : "SAMPLE",
+  "uuid" : "SAMPLE",
+  "version" : SAMPLE,
+  "startDate" : "SAMPLE",
+  "expirationDate" : "SAMPLE"
+}
+-----BEGIN PGP SIGNATURE-----
+SAMPLE...
+-----END PGP SIGNATURE-----
+[REPLACE WITH YOUR LICENCE (END)]
+EOF
+
+
+curl -s -X POST -F 'license=@my_cloudera_license.txt' -u ${CM_USERNAME}:${CM_PASSWORD} http://${DEPLOYMENT_HOST_PORT}/api/v19/cm/license
+
+exit 0
