@@ -17,6 +17,8 @@ INSTANCE_OWNER_TAG:      "your_email_address"            #"owner" tag of ec2 ins
 #INSTANCE_ENDDATE_TAG:    enddate_to_use_this_environment #"enddate" tag of ec2 instance
 INSTANCE_PROJECT_TAG:    project_to_use_this_environment #"project" tag of ec2 instance
 
+PERCEL_REPO_HOST:        your_host_for_custom_percel_repository
+
 ######################################################
 
 ## Instance Configurations
